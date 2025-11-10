@@ -1,3 +1,7 @@
 aiogram==3.4.1
-nest_asyncio
-python-dotenv
+nest_asyncio==1.6.0
+python-dotenv==1.2.1
+aiofiles==23.2.1
+aiohttp==3.9.5
+aiosqlite
+apscheduler
