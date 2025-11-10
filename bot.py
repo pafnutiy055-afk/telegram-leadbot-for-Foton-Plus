@@ -1,4 +1,3 @@
-!pip install aiogram==3.3.0 aiosqlite apscheduler python-dotenv
 import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart
