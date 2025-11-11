@@ -163,7 +163,10 @@ async def process_goal(callback: types.CallbackQuery, state: FSMContext):
         resize_keyboard=True,
         one_time_keyboard=True
     )
-    await callback.message.answer("📞 Оставь, пожалуйста, свой номер телефона, чтобы менеджер мог с тобой связаться:", reply_markup=contact_btn)
+    await callback.message.answer(
+        "📞 Оставь, пожалуйста, свой номер телефона, чтобы менеджер мог с тобой связаться:",
+        reply_markup=contact_btn
+    )
     await state.set_state(Quiz.phone)
 
 
@@ -181,8 +184,6 @@ async def process_phone(message: types.Message, state: FSMContext):
         return
 
     await state.update_data(phone=phone)
-
-    # Убираем клавиатуру
     await message.answer("Спасибо! 🙌", reply_markup=types.ReplyKeyboardRemove())
 
     keyboard = InlineKeyboardMarkup(
@@ -208,12 +209,8 @@ async def finish_quiz(callback: types.CallbackQuery, state: FSMContext):
     phone = data.get("phone", "—")
     ready = "Готов начать" if callback.data == "ready_yes" else "Пока не готов"
 
-    # Ссылка на пользователя
     user = callback.from_user
-    if user.username:
-        user_link = f"https://t.me/{user.username}"
-    else:
-        user_link = f"tg://user?id={user.id}"
+    username = f"@{user.username}" if user.username else "нет username"
 
     # Ответ пользователю
     if callback.data == "ready_yes":
@@ -229,7 +226,7 @@ async def finish_quiz(callback: types.CallbackQuery, state: FSMContext):
         f"🎯 Цель: {goal}\n"
         f"📞 Телефон: {phone}\n"
         f"🚀 Готовность: {ready}\n"
-        f"🔗 Пользователь: <a href=\"{user_link}\">{user.full_name}</a>\n"
+        f"👥 Username: {username}\n"
         f"🆔 Telegram ID: {user.id}"
     )
 
